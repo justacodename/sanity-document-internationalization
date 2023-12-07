@@ -165,7 +165,12 @@ export const LanguageSelectListItem: React.FC<Props> = ({status, language}) => {
       }
 
       const translatedDocument = config.onTranslationCreate
-        ? await config.onTranslationCreate(baseTranslatedDocument, client)
+        ? await config.onTranslationCreate({
+            document: baseTranslatedDocument,
+            client,
+            config,
+            translationLanguageId: language.id,
+          })
         : baseTranslatedDocument
 
       await client.createIfNotExists(translatedDocument as {_id: string; _type: string})
