@@ -1,6 +1,7 @@
 {
   "name": "@justacodename/sanity-document-internationalization",
-  "version": "1.1.1",
+  "version": "1.1.2",
+  "private": "true",
   "description": "Provides document level translations for Sanity Studio",
   "keywords": [
     "sanity",
@@ -21,10 +22,6 @@
     "url": "git@github.com:justacodename/sanity-document-internationalization.git"
   },
   "license": "MIT",
-  "authors": [
-    "Sanity.io <hello@sanity.io>",
-    "Justacodename <hi@justacodename.com>"
-  ],
   "exports": {
     ".": {
       "types": "./lib/src/index.d.ts",
@@ -123,5 +120,8 @@
   "engines": {
     "node": ">=14"
   },
-  "private": "true"
+  "authors": [
+    "Sanity.io <hello@sanity.io>",
+    "Justacodename <hi@justacodename.com>"
+  ]
 }
