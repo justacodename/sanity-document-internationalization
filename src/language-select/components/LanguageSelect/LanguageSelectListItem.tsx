@@ -133,7 +133,8 @@ export const LanguageSelectListItem: React.FC<Props> = ({status, language}) => {
       const referencesFieldName = config.fieldNames.references
       const baseFieldName = config.fieldNames.baseReference
       const referenceBehavior = config.referenceBehavior
-      await client.createIfNotExists({
+
+      const baseTranslatedDocument = {
         _id: `drafts.${translatedId}`,
         _type: currentDocumentType,
 
@@ -161,7 +162,19 @@ export const LanguageSelectListItem: React.FC<Props> = ({status, language}) => {
               },
             }
           : {}),
-      })
+      }
+
+      const translatedDocument = config.onTranslationCreate
+        ? await config.onTranslationCreate({
+            document: baseTranslatedDocument,
+            client,
+            config,
+            translationLanguageId: language.id,
+          })
+        : baseTranslatedDocument
+
+      await client.createIfNotExists(translatedDocument as {_id: string; _type: string})
+
       toast.push({
         closable: true,
         status: 'success',

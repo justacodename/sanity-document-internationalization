@@ -1,9 +1,12 @@
 import {SanityDocument, SchemaType} from 'sanity'
 import type {ComponentType, FC} from 'react'
 import {IdStructure, ReferenceBehavior} from '../constants'
+
 import {TLanguagesOption} from './TLanguagesOption'
 import {TFieldNamesConfig} from './TFieldNamesConfig'
 import {ILanguageObject} from './ILanguageObject'
+
+import {IOnTranslationCreateContext} from './IOnTranslationCreateContext'
 
 export type Ti18nConfig = {
   base?: string
@@ -22,6 +25,7 @@ export type Ti18nConfig = {
       i18n?: boolean | Ti18nConfig
     }
   }>
+  onTranslationCreate?: (context: IOnTranslationCreateContext) => Promise<Record<string, unknown>>
   customFlagComponents?: Record<
     string,
     ComponentType<{
