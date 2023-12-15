@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import get from 'just-safe-get'
 import {Box, Button, Flex, Menu, MenuButton, PopoverProps, Text} from '@sanity/ui'
 import type {SchemaType, SanityDocument} from 'sanity'
@@ -29,6 +29,7 @@ export const LanguageSelect: React.FC<Props> = ({schemaType, document}) => {
   const pluginConfig = useContext(LanguageConfigContext)
   const config = useConfig(pluginConfig, schemaType.name)
   const [pending, languages] = useLanguages(config, document)
+  const [translating, setTranslating] = useState(false)
 
   const baseLanguage = React.useMemo(
     () => getBaseLanguage(languages, config.base),
@@ -135,6 +136,7 @@ export const LanguageSelect: React.FC<Props> = ({schemaType, document}) => {
     !currentLanguageCode ||
     pending ||
     loading ||
+    translating ||
     languages.length === 0
   ) {
     return (
@@ -142,7 +144,7 @@ export const LanguageSelect: React.FC<Props> = ({schemaType, document}) => {
         disabled
         mode="bleed"
         padding={3}
-        loading={pending || loading}
+        loading={pending || loading || translating}
         iconRight={ChevronDownIcon}
         text={UiMessages.languageSelect.placeholder}
       />
@@ -179,7 +181,7 @@ export const LanguageSelect: React.FC<Props> = ({schemaType, document}) => {
         }
         menu={
           <Menu>
-            <LanguageSelectList {...languagesObjects} />
+            <LanguageSelectList {...languagesObjects} setTranslating={setTranslating} />
           </Menu>
         }
       />

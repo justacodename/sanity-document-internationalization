@@ -11,6 +11,7 @@ type Props = {
   draftLanguageObjects: IExtendedLanguageObject[]
   publishedLanguageObjects: IExtendedLanguageObject[]
   missingLanguageObjects: IExtendedLanguageObject[]
+  setTranslating: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Divider = styled(Box)`
@@ -25,6 +26,7 @@ export const LanguageSelectList: React.FC<Props> = ({
   draftLanguageObjects,
   publishedLanguageObjects,
   missingLanguageObjects,
+  setTranslating,
 }) => {
   const showDivider = React.useMemo(
     () =>
@@ -61,6 +63,7 @@ export const LanguageSelectList: React.FC<Props> = ({
                 key={language.id}
                 status={language.status}
                 language={language}
+                setTranslating={setTranslating}
               />
             ))}
           </Grid>
@@ -74,7 +77,12 @@ export const LanguageSelectList: React.FC<Props> = ({
           <LanguageSelectLabel>{UiMessages.languageSelect.listLabels.missing}</LanguageSelectLabel>
           <Grid columns={1} gap={1}>
             {missingLanguageObjects.map((language) => (
-              <LanguageSelectListItem key={language.id} status="missing" language={language} />
+              <LanguageSelectListItem
+                key={language.id}
+                status="missing"
+                language={language}
+                setTranslating={setTranslating}
+              />
             ))}
           </Grid>
         </Box>
