@@ -19,6 +19,7 @@ import {LanguageConfigContext} from './LanguageConfigContext'
 type Props = {
   status: 'draft' | 'published' | 'missing'
   language: IExtendedLanguageObject
+  setTranslating: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const rotate = keyframes`
@@ -62,7 +63,7 @@ const MenuItemSelectedButton = styled.button`
   }
 `
 
-export const LanguageSelectListItem: React.FC<Props> = ({status, language}) => {
+export const LanguageSelectListItem: React.FC<Props> = ({status, language, setTranslating}) => {
   const toast = useToast()
   const pluginConfig = useContext(LanguageConfigContext)
   const client = useSanityClient()
@@ -128,6 +129,7 @@ export const LanguageSelectListItem: React.FC<Props> = ({status, language}) => {
   const handleCreateClick = React.useCallback(async () => {
     try {
       setPending(true)
+      setTranslating(true)
       const baseDocument = baseDocumentEditState.draft || baseDocumentEditState.published
       const langFieldName = config.fieldNames.lang
       const referencesFieldName = config.fieldNames.references
@@ -192,6 +194,7 @@ export const LanguageSelectListItem: React.FC<Props> = ({status, language}) => {
       })
     } finally {
       setPending(false)
+      setTranslating(false)
     }
   }, [
     config,
@@ -204,6 +207,7 @@ export const LanguageSelectListItem: React.FC<Props> = ({status, language}) => {
     baseLanguage,
     openDocumentInCurrentPane,
     client,
+    setTranslating,
   ])
 
   const handleOpenClick = React.useCallback(() => {
